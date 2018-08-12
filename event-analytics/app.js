@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-  res.redirect('login.html');
+  res.redirect('login.ejs');
 });
 
 
