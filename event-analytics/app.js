@@ -10,10 +10,10 @@ app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.get('/', (req, res) => {
-  res.status(200).send('Box event-analytics!').end();
+  res.render('login.ejs',{});
 });
 
-app.get('/login', (req, res) => {
+app.get('/home', (req, res) => {
   res.render('login.ejs',{});
 });
 
