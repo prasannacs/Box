@@ -14,8 +14,13 @@ app.get('/', (req, res) => {
 });
 
 app.get('/home', (req, res) => {
-  res.render('login.ejs',{});
+  res.render('home.ejs',{});
 });
+
+app.post('/home', (req, res) => {
+    console.log(req.body)
+    res.render('home.ejs',{});
+})
 
 
 // Start the server
