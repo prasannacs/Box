@@ -3,6 +3,8 @@
 // [START app]
 const express = require('express');
 const bodyParser = require('body-parser')
+var services = require('./services/eventAdmin');
+
 
 const app = express();
 
