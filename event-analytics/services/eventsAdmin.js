@@ -1,6 +1,6 @@
 // Imports the Google Cloud client library
-const BigQuery = require('@google-cloud/bigquery');
 const Request = require("request");
+const BigQuery = require('@google-cloud/bigquery');
 
 // Your Google Cloud Platform project ID
 const projectId = 'sixth-hawk-194719';
