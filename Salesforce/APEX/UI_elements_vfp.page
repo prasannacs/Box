@@ -1,0 +1,32 @@
+<apex:page controller="JWTConnection">
+    <apex:includeScript value="{!$Resource.ContentExplorer}"/>
+    <apex:stylesheet value="https://cdn01.boxcdn.net/platform/elements/4.4.0/en-US/explorer.css"/> 
+    <div style="margin-top:20px">
+        <h1>Box Platform Demo</h1>
+    </div>
+    
+    <div class="container" style="height:500px; width:1000px; margin-top:30px"></div>
+    
+    <div style="margin-top:30px">
+        <h3>Downscoped Service Account Token</h3> 
+        <p>{!token}</p>
+    </div>
+    
+    <apex:form >
+        <br/><br/>
+        <h1>Create Folder</h1>
+        <br/><br/>  
+        <apex:inputText value="{!folderName}" id="folderName" maxlength="80"/>           
+        <apex:commandButton value="Submit" action="{!createFolder}" /> 
+    </apex:form>
+    
+    <script>
+          var folderId = '0';
+          var accessToken = '{!token}';
+          var contentExplorer = new Box.ContentExplorer();
+          contentExplorer.show(folderId, accessToken, {
+            container: '.container',
+            logoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Acme_Markets_lolo.svg/2000px-Acme_Markets_lolo.svg.png"
+        });
+    </script>
+</apex:page>
