@@ -20,8 +20,8 @@ app.get('/home', (req, res) => {
 });
 
 app.post('/home', (req, res) => {
-    console.log(req.body.accessToken);
-    services.callEventsAPI(req.body.accessToken);
+    console.log(req.body.token);
+    services.callEventsAPI(req.body.token);
     res.render('home.ejs',{});
 })
 
