@@ -12,6 +12,7 @@ const bigquery = new BigQuery({
 
 module.exports = {
     callEventsAPI: function(accessToken) {
+        console.log('=====Access Token===== ',accessToken);
         var eventURL = 'https://api.box.com/2.0/events?stream_type=admin_logs';
 
         var options = {
@@ -30,6 +31,8 @@ module.exports = {
 }
 
 function callback(error, response, body) {
+    if(error)
+       console.log(error);
     console.log('response ', response);
 
 }
