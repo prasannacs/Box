@@ -51,7 +51,7 @@ function callback(error, response, body) {
 
 function insertBigQuery(tableId, rows)   {
   bigquery
-    .dataset(datasetId)
+    .dataset('box_events')
     .table(tableId)
     .insert(rows)
     .then(() => {
