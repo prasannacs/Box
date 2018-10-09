@@ -37,7 +37,7 @@ module.exports = {
 function callback(error, response, body) {
     if(error)
        console.log(error);
-    var entries = response.body;
+    var entries = JSON.parse(response.body);
     console.log('response ====', entries);
     var counter;
     for(counter=0; counter<entries.length; counter++)   {
