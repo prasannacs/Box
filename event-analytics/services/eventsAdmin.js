@@ -6,6 +6,7 @@ const BigQuery = require('@google-cloud/bigquery');
 const projectId = 'sixth-hawk-194719';
 const datesetId = 'box_events';
 const table_eventsAdmin = 'events_admin';
+const table_eventsAdmin_createdBy = 'events_admin_created_by';
 const table_add_det = 'events_admin_additional_details';
 const table_source = 'events_admin_source';
 const table_parent = 'events_admin_source_parent';
@@ -55,6 +56,32 @@ function callback(error, response, body) {
         var event_admin_row = [{event_id: entries[counter].event_id, created_at: bq_created_date, event_type: entries[counter].event_type, ip_address: entries[counter].ip_address, session_id: entries[counter].session_id}];
         console.log('event_admin_row -',event_admin_row);
         insertBigQuery(table_eventsAdmin, event_admin_row);
+        
+        var created_by = entries[counter].created_by;
+        var event_admin_created_by_row = [{event_id: entries[counter].event_id, type: created_by.type, id: created_by.id, name: created_by.name, login: created_by.login}];
+        console.log('event_admin_created_by_row -',event_admin_created_by_row);
+        insertBigQuery(table_eventsAdmin_createdBy, event_admin_created_by_row);
+
+        var source = entries[counter].source;
+        var source_row = [{event_id: entries[counter].event_id, item_type: source.item_type, item_id: source.item_id, item_name: source.item_name}];
+        console.log('source_row -',source_row);
+        insertBigQuery(events_admin_source, source_row);
+
+        var parent = source.parent;
+        if(parent != null)     {
+            var parent_row = [{event_id: entries[counter].event_id, type: parent.type, name: parent.name, id: parent.id}];
+            console.log('parent_row -',parent_row);
+            insertBigQuery(table_parent, parent_row);
+        }
+
+        
+        var add_det = entries[counter].addtional_details;
+        if(add_det != null)     {
+            var add_det_row = [{event_id: entries[counter].event_id, version_id: add_det.version_id, size: add_det.size}];
+            console.log('add_det_row -',add_det_row);
+            insertBigQuery(table_add_det, add_det_row);
+        }
+
     }
 
 }
