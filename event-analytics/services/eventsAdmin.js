@@ -42,7 +42,7 @@ function callback(error, response, body) {
     console.log('response ====', entries);
     var counter;
     for(counter=0; counter<entries.length; counter++)   {
-        var event_admin_row = [{event_id: entries[counter].event_id, created_at: BigQuery.datetime(new Date(entries[counter].created_at)), event_type: entries[counter].event_type, ip_address: entries[counter].ip_address, session_id: entries[counter].session_id}];
+        var event_admin_row = [{event_id: entries[counter].event_id, created_at: BigQuery.datetime(Date.parse(entries[counter].created_at)), event_type: entries[counter].event_type, ip_address: entries[counter].ip_address, session_id: entries[counter].session_id}];
         console.log('event_admin_row -',event_admin_row);
         insertBigQuery(table_eventsAdmin, event_admin_row);
     }
