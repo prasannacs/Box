@@ -63,17 +63,18 @@ function callback(error, response, body) {
         insertBigQuery(table_eventsAdmin_createdBy, event_admin_created_by_row);
 
         var source = entries[counter].source;
-        var source_row = [{event_id: entries[counter].event_id, item_type: source.item_type, item_id: source.item_id, item_name: source.item_name}];
-        console.log('source_row -',source_row);
-        insertBigQuery(table_source, source_row);
+        if( source != null )    {
+            var source_row = [{event_id: entries[counter].event_id, item_type: source.item_type, item_id: source.item_id, item_name: source.item_name}];
+            console.log('source_row -',source_row);
+            insertBigQuery(table_source, source_row);
+            var parent = source.parent;
+            if(parent != null)     {
+                var parent_row = [{event_id: entries[counter].event_id, type: parent.type, name: parent.name, id: parent.id}];
+                console.log('parent_row -',parent_row);
+                insertBigQuery(table_parent, parent_row);
+            }
 
-        var parent = source.parent;
-        if(parent != null)     {
-            var parent_row = [{event_id: entries[counter].event_id, type: parent.type, name: parent.name, id: parent.id}];
-            console.log('parent_row -',parent_row);
-            insertBigQuery(table_parent, parent_row);
         }
-
         
         var add_det = entries[counter].addtional_details;
         if(add_det != null)     {
