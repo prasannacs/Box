@@ -38,7 +38,7 @@ function callback(error, response, body) {
     if(error)
        console.log(error);
     var entries = JSON.parse(response.body);
-    console.log('response ====', entries);
+    console.log('response ====', entries[0].event_id);
     var counter;
     for(counter=0; counter<entries.length; counter++)   {
         var event_admin_row = [{event_id: entries[counter].event_id, created_at: entries[counter].created_at, event_type: entries[counter].event_type, ip_address: entries[counter].ip_address, session_id: entries[counter].session_id}];
