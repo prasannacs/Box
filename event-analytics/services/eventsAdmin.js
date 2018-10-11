@@ -35,6 +35,18 @@ module.exports = {
 
 }
 
+function getBQDate(date)    {
+         var bq_date = BigQuery.datetime({
+         year: date.getFullYear(),
+          month: date.getMonth(),
+          day: date.getDay(),
+          hours: date.getHours(),
+          minutes: date.getMinutes(),
+          seconds: date.getSeconds()
+         });
+    return bq_date;
+}
+
 function callback(error, response, body) {
     if(error)
        console.log(error);
@@ -44,16 +56,9 @@ function callback(error, response, body) {
     var counter;
     for(counter=0; counter<entries.length; counter++)   {
         var created_date = new Date(entries[counter].created_at);
-         var bq_created_date = BigQuery.datetime({
-         year: created_date.getFullYear(),
-          month: created_date.getMonth(),
-          day: created_date.getDay(),
-          hours: created_date.getHours(),
-          minutes: created_date.getMinutes(),
-          seconds: created_date.getSeconds()
-        });
+         var bq_created_date = getBQDate(created_date);
 
-        var event_admin_row = [{event_id: entries[counter].event_id, created_at: bq_created_date, event_type: entries[counter].event_type, ip_address: entries[counter].ip_address, session_id: entries[counter].session_id}];
+        var event_admin_row = [{event_id: entries[counter].event_id, created_at: bq_created_date, event_type: entries[counter].event_type, ip_address: entries[counter].ip_address, session_id: entries[counter].session_id, inserted_at: getBQDate(new Date())}];
         console.log('event_admin_row -',event_admin_row);
         insertBigQuery(table_eventsAdmin, event_admin_row);
         
@@ -69,7 +74,7 @@ function callback(error, response, body) {
             insertBigQuery(table_source, source_row);
             var parent = source.parent;
             if(parent != null)     {
-                var parent_row = [{event_id: entries[counter].event_id, type: parent.type, name: parent.name, id: parent.id}];
+                var parent_row = [{source_item_id: source.item_id, type: parent.type, name: parent.name, id: parent.id}];
                 console.log('parent_row -',parent_row);
                 insertBigQuery(table_parent, parent_row);
             }
