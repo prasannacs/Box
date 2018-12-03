@@ -31,7 +31,7 @@ function getEventURL(stream_position)  {
     if( stream_position != 'undefined') {
         eventURL = eventURL + '&stream_position=' + stream_position;
     }
-    
+    console.log('access_token == -- ',access_token);
        var options = {
             method: 'GET',
             url: eventURL,
