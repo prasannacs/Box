@@ -10,7 +10,7 @@ const table_eventsAdmin_createdBy = 'events_admin_created_by';
 const table_add_det = 'events_admin_additional_details';
 const table_source = 'events_admin_source';
 const table_parent = 'events_admin_source_parent';
-global.access_token;
+var access_token;
 
 // Creates a client
 const bigquery = new BigQuery({
