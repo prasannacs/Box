@@ -18,9 +18,20 @@ const bigquery = new BigQuery({
 
 module.exports = {
     callEventsAPI: function(accessToken) {
-        var eventURL = 'https://api.box.com/2.0/events?stream_type=admin_logs';
 
-        var options = {
+        Request(getEventURL(), callback);
+
+    }
+
+}
+
+function getEventURL(stream_position)  {
+    var eventURL = 'https://api.box.com/2.0/events?stream_type=admin_logs&limit=500';
+    if( stream_position != 'undefined') {
+        eventURL = eventURL + '&stream_position=' + stream_position;
+    }
+    
+       var options = {
             method: 'GET',
             url: eventURL,
             headers: {
@@ -28,11 +39,7 @@ module.exports = {
                 'Authorization': 'Bearer ' + accessToken
             }
         }
-
-        Request(options, callback);
-
-    }
-
+    return options;
 }
 
 function getBQDate(date)    {
@@ -51,6 +58,8 @@ function callback(error, response, body) {
     if(error)
        console.log(error);
     var res = JSON.parse(response.body);
+    var next_stream_position = res.next_stream_position;
+    console.log('next_stream_position -- ',next_stream_position);
     var entries = res.entries;
     console.log('response ====', entries);
     var counter;
@@ -89,7 +98,9 @@ function callback(error, response, body) {
         }
 
     }
-
+    if (typeof next_stream_position != 'undefined') {
+        Request(getEventURL(next_stream_position), callback);
+    }
 }
 
 function insertBigQuery(tableId, rows)   {
