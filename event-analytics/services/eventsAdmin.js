@@ -28,7 +28,7 @@ module.exports = {
 
 function getEventURL(stream_position)  {
     var eventURL = 'https://api.box.com/2.0/events?stream_type=admin_logs&limit=500';
-    if( stream_position != 'undefined') {
+    if(typeof stream_position != 'undefined') {
         eventURL = eventURL + '&stream_position=' + stream_position;
     }
     console.log('access_token == -- ',access_token, eventURL);
