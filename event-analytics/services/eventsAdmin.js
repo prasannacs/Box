@@ -105,6 +105,7 @@ function callback(error, response, body) {
 }
 
 function insertBigQuery(tableId, rows)   {
+    console.log('############ BQ insert #############',tableId,rows);
   bigquery
     .dataset('box_events')
     .table(tableId)
