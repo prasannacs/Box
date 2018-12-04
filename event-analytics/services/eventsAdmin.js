@@ -62,30 +62,30 @@ function callback(error, response, body) {
     var next_stream_position = res.next_stream_position;
     console.log('next_stream_position -- ',next_stream_position);
     var entries = res.entries;
-    console.log('response ====', entries);
+    //console.log('response ====', entries);
     var counter;
     for(counter=0; counter<entries.length; counter++)   {
         var created_date = new Date(entries[counter].created_at);
          var bq_created_date = getBQDate(created_date);
 
         var event_admin_row = [{event_id: entries[counter].event_id, created_at: bq_created_date, event_type: entries[counter].event_type, ip_address: entries[counter].ip_address, session_id: entries[counter].session_id, inserted_at: getBQDate(new Date())}];
-        console.log('event_admin_row -',event_admin_row);
+      //  console.log('event_admin_row -',event_admin_row);
         insertBigQuery(table_eventsAdmin, event_admin_row);
         
         var created_by = entries[counter].created_by;
         var event_admin_created_by_row = [{event_id: entries[counter].event_id, type: created_by.type, id: created_by.id, name: created_by.name, login: created_by.login}];
-        console.log('event_admin_created_by_row -',event_admin_created_by_row);
+       // console.log('event_admin_created_by_row -',event_admin_created_by_row);
         insertBigQuery(table_eventsAdmin_createdBy, event_admin_created_by_row);
 
         var source = entries[counter].source;
         if( source != null )    {
             var source_row = [{event_id: entries[counter].event_id, item_type: source.item_type, item_id: source.item_id, item_name: source.item_name}];
-            console.log('source_row -',source_row);
+           // console.log('source_row -',source_row);
             insertBigQuery(table_source, source_row);
             var parent = source.parent;
             if(parent != null)     {
                 var parent_row = [{source_item_id: source.item_id, type: parent.type, name: parent.name, id: parent.id}];
-                console.log('parent_row -',parent_row);
+              //  console.log('parent_row -',parent_row);
                 insertBigQuery(table_parent, parent_row);
             }
 
@@ -94,7 +94,7 @@ function callback(error, response, body) {
         var add_det = entries[counter].addtional_details;
         if(add_det != null)     {
             var add_det_row = [{event_id: entries[counter].event_id, version_id: add_det.version_id, size: add_det.size}];
-            console.log('add_det_row -',add_det_row);
+           // console.log('add_det_row -',add_det_row);
             insertBigQuery(table_add_det, add_det_row);
         }
 
@@ -105,7 +105,7 @@ function callback(error, response, body) {
 }
 
 function insertBigQuery(tableId, rows)   {
-    console.log('############ BQ insert #############',tableId,rows);
+    console.log('############ BQ insert #############',tableId, rows.length);
   bigquery
     .dataset('box_events')
     .table(tableId)
