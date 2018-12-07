@@ -115,7 +115,7 @@ function callback(error, response, body) {
     insertBigQuery(table_add_det, add_det_rows);
     
     if (typeof next_stream_position != 'undefined') {
-        Request(getEventURL(next_stream_position), callback);
+        //Request(getEventURL(next_stream_position), callback);
     }
 }
 
