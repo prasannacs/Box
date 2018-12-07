@@ -11,6 +11,7 @@ const table_add_det = 'events_admin_additional_details';
 const table_source = 'events_admin_source';
 const table_parent = 'events_admin_source_parent';
 var access_token;
+var eid;
 
 // Creates a client
 const bigquery = new BigQuery({
@@ -18,8 +19,9 @@ const bigquery = new BigQuery({
 });
 
 module.exports = {
-    callEventsAPI: function(accessToken) {
+    callEventsAPI: function(accessToken, EID) {
         access_token = accessToken;
+        eid = EID;
         Request(getEventURL(), callback);
 
     }
@@ -74,24 +76,24 @@ function callback(error, response, body) {
         var created_date = new Date(entries[counter].created_at);
          var bq_created_date = getBQDate(created_date);
 
-        var event_admin_row = {event_id: entries[counter].event_id, created_at: bq_created_date, event_type: entries[counter].event_type, ip_address: entries[counter].ip_address, session_id: entries[counter].session_id, inserted_at: getBQDate(new Date())};
+        var event_admin_row = {event_id: entries[counter].event_id, created_at: bq_created_date, event_type: entries[counter].event_type, ip_address: entries[counter].ip_address, session_id: entries[counter].session_id, inserted_at: getBQDate(new Date()), eid: eid};
         event_admin_rows.push(event_admin_row);
       //  console.log('event_admin_row -',event_admin_row);
         
         var created_by = entries[counter].created_by;
-        var event_admin_created_by_row = {event_id: entries[counter].event_id, type: created_by.type, id: created_by.id, name: created_by.name, login: created_by.login};
+        var event_admin_created_by_row = {event_id: entries[counter].event_id, type: created_by.type, id: created_by.id, name: created_by.name, login: created_by.login, eid: eid};
        // console.log('event_admin_created_by_row -',event_admin_created_by_row);
         event_admin_created_by_rows.push(event_admin_created_by_row);
 
         var source = entries[counter].source;
         if( source != null )    {
-            var source_row = {event_id: entries[counter].event_id, item_type: source.item_type, item_id: source.item_id, item_name: source.item_name};
+            var source_row = {event_id: entries[counter].event_id, item_type: source.item_type, item_id: source.item_id, item_name: source.item_name, eid: eid};
             source_rows.push(source_row);
            // console.log('source_row -',source_row);
             
             var parent = source.parent;
             if(parent != null)     {
-                var parent_row = {source_item_id: source.item_id, type: parent.type, name: parent.name, id: parent.id};
+                var parent_row = {source_item_id: source.item_id, type: parent.type, name: parent.name, id: parent.id, eid : eid};
                 parent_rows.push(parent_row);
               //  console.log('parent_row -',parent_row);
             }
@@ -100,7 +102,7 @@ function callback(error, response, body) {
         
         var add_det = entries[counter].addtional_details;
         if(add_det != null)     {
-            var add_det_row = [{event_id: entries[counter].event_id, version_id: add_det.version_id, size: add_det.size}];
+            var add_det_row = [{event_id: entries[counter].event_id, version_id: add_det.version_id, size: add_det.size, eid : eid}];
            // console.log('add_det_row -',add_det_row);
             add_det_rows.push(add_det_row);
         }
