@@ -64,11 +64,11 @@ function callback(error, response, body) {
     var entries = res.entries;
     //console.log('response ====', entries);
     var counter;
-    var event_admin_rows;
-    var event_admin_created_by_rows;
-    var source_rows;
-    var parent_rows;
-    var add_det_rows;
+    var event_admin_rows = [];
+    var event_admin_created_by_rows = [];
+    var source_rows = [];
+    var parent_rows = [];
+    var add_det_rows = [];
     
     for(counter=0; counter<entries.length; counter++)   {
         var created_date = new Date(entries[counter].created_at);
