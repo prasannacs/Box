@@ -19,7 +19,7 @@
     <script src="https://cdn01.boxcdn.net/platform/elements/7.2.0/en-US/explorer.js"></script>
     <script>
       	var folderId = '0';
-      	var accessToken = '<% token %>';
+      	var accessToken = '<%= token %>';
       	var contentExplorer = new Box.ContentExplorer();
       	contentExplorer.show(folderId, accessToken, {
             container: '.container'
