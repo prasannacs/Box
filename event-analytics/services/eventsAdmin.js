@@ -103,7 +103,7 @@ function callback(error, response, body) {
         var add_det = entries[counter].addtional_details;
         if(add_det != null)     {
             var add_det_row = [{event_id: entries[counter].event_id, version_id: add_det.version_id, size: add_det.size, eid : eid}];
-           // console.log('add_det_row -',add_det_row);
+            console.log('add_det_row -',add_det_row);
             add_det_rows.push(add_det_row);
         }
 
@@ -120,13 +120,12 @@ function callback(error, response, body) {
 }
 
 function insertBigQuery(tableId, rows)   {
-    console.log('############ BQ insert #############',tableId, rows.length);
   bigquery
     .dataset('box_events')
     .table(tableId)
     .insert(rows)
     .then(() => {
-      console.log(`Inserted ${rows.length} rows`);
+      console.log(`Inserted ${rows.length} rows `,tableId);
     })
     .catch(err => {
       if (err && err.name === 'PartialFailureError') {
@@ -135,8 +134,8 @@ function insertBigQuery(tableId, rows)   {
           err.errors.forEach(err => console.error(err));
         }
       } else {
-        console.error('ERROR:', err);
+        console.error(tableId, '===> ERROR:', err);
       }
     });
-   
+       console.log('############ BQ insert #############',tableId, rows.length);
 }
