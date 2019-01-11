@@ -112,7 +112,8 @@ function callback(error, response, body) {
     insertBigQuery(table_eventsAdmin_createdBy, event_admin_created_by_rows);
     insertBigQuery(table_source, source_rows);
     insertBigQuery(table_parent, parent_rows);
-    insertBigQuery(table_add_det, add_det_rows);
+    if( add_det_rows.length > 0 )
+        insertBigQuery(table_add_det, add_det_rows);
     
     if (typeof next_stream_position != 'undefined') {
         //Request(getEventURL(next_stream_position), callback);
