@@ -78,24 +78,24 @@ function callback(error, response, body) {
 
         var event_admin_row = {event_id: entries[counter].event_id, created_at: bq_created_date, event_type: entries[counter].event_type, ip_address: entries[counter].ip_address, session_id: entries[counter].session_id, inserted_at: getBQDate(new Date()), eid: eid};
         event_admin_rows.push(event_admin_row);
-      //  console.log('event_admin_row -',event_admin_row);
+        console.log('event_admin_row -',event_admin_row);
         
         var created_by = entries[counter].created_by;
         var event_admin_created_by_row = {event_id: entries[counter].event_id, type: created_by.type, id: created_by.id, name: created_by.name, login: created_by.login, eid: eid};
-       // console.log('event_admin_created_by_row -',event_admin_created_by_row);
+        console.log('event_admin_created_by_row -',event_admin_created_by_row);
         event_admin_created_by_rows.push(event_admin_created_by_row);
 
         var source = entries[counter].source;
         if( source != null )    {
             var source_row = {event_id: entries[counter].event_id, item_type: source.item_type, item_id: source.item_id, item_name: source.item_name, eid: eid};
             source_rows.push(source_row);
-           // console.log('source_row -',source_row);
+            console.log('source_row -',source_row);
             
             var parent = source.parent;
             if(parent != null)     {
                 var parent_row = {source_item_id: source.item_id, type: parent.type, name: parent.name, id: parent.id, eid : eid};
                 parent_rows.push(parent_row);
-              //  console.log('parent_row -',parent_row);
+                console.log('parent_row -',parent_row);
             }
 
         }
@@ -132,7 +132,7 @@ function insertBigQuery(tableId, rows)   {
       if (err && err.name === 'PartialFailureError') {
         if (err.errors && err.errors.length > 0) {
           console.log('Insert errors:');
-          err.errors.forEach(err => console.error(err));
+          err.errors.forEach(err => console.error('~~~~Error~~~',err));
         }
       } else {
         console.error(tableId, '===> ERROR:', err);
