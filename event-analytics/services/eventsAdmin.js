@@ -47,7 +47,7 @@ function getEventURL(stream_position)  {
 
 function getBQDate(date)    {
          var bq_date = BigQuery.datetime({
-         year: date.getFullYear(),
+         year: date.getYear(),
           month: date.getMonth(),
           day: date.getDay(),
           hours: date.getHours(),
