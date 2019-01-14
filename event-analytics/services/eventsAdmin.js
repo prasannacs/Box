@@ -47,7 +47,7 @@ function getEventURL(stream_position)  {
 
 function getBQDate(date)    {
          var bq_date = BigQuery.datetime({
-         year: date.getYear(),
+         year: date.getFullYear(),
           month: date.getMonth(),
           day: date.getDay(),
           hours: date.getHours(),
@@ -76,7 +76,7 @@ function callback(error, response, body) {
         var created_date = new Date(entries[counter].created_at);
          var bq_created_date = getBQDate(created_date);
 
-        var event_admin_row = {event_id: entries[counter].event_id, created_at: bq_created_date, event_type: entries[counter].event_type, ip_address: entries[counter].ip_address, session_id: entries[counter].session_id, inserted_at: getBQDate(new Date()-1), eid: eid};
+        var event_admin_row = {event_id: entries[counter].event_id, created_at: bq_created_date, event_type: entries[counter].event_type, ip_address: entries[counter].ip_address, session_id: entries[counter].session_id, inserted_at: getBQDate(new Date()), eid: eid};
         event_admin_rows.push(event_admin_row);
         console.log('event_admin_row -',event_admin_row);
         
