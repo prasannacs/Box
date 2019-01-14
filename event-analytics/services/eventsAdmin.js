@@ -107,7 +107,8 @@ function callback(error, response, body) {
         }
 
     }
-    insertBigQuery(table_eventsAdmin, event_admin_rows);
+    if( event_admin_rows.length > 0 )
+        insertBigQuery(table_eventsAdmin, event_admin_rows);
     if( event_admin_created_by_rows.length > 0 )
         insertBigQuery(table_eventsAdmin_createdBy, event_admin_created_by_rows);
     if( source_rows.length > 0 )
