@@ -82,20 +82,20 @@ function callback(error, response, body) {
         
         var created_by = entries[counter].created_by;
         var event_admin_created_by_row = {event_id: entries[counter].event_id, type: created_by.type, id: created_by.id, name: created_by.name, login: created_by.login, eid: eid};
-        console.log('event_admin_created_by_row -',event_admin_created_by_row);
-        event_admin_created_by_rows.push(event_admin_created_by_row);
+    //    console.log('event_admin_created_by_row -',event_admin_created_by_row);
+    //    event_admin_created_by_rows.push(event_admin_created_by_row);
 
         var source = entries[counter].source;
         if( source != null )    {
             var source_row = {event_id: entries[counter].event_id, item_type: source.item_type, item_id: source.item_id, item_name: source.item_name, eid: eid};
-            source_rows.push(source_row);
-            console.log('source_row -',source_row);
+      //      source_rows.push(source_row);
+      //      console.log('source_row -',source_row);
             
             var parent = source.parent;
             if(parent != null)     {
                 var parent_row = {source_item_id: source.item_id, type: parent.type, name: parent.name, id: parent.id, eid : eid};
-                parent_rows.push(parent_row);
-                console.log('parent_row -',parent_row);
+         //       parent_rows.push(parent_row);
+         //       console.log('parent_row -',parent_row);
             }
 
         }
@@ -103,17 +103,17 @@ function callback(error, response, body) {
         var add_det = entries[counter].addtional_details;
         if(add_det != null)     {
             var add_det_row = [{event_id: entries[counter].event_id, version_id: add_det.version_id, size: add_det.size, eid : eid}];
-            console.log('add_det_row -',add_det_row);
-            add_det_rows.push(add_det_row);
+       //     console.log('add_det_row -',add_det_row);
+       //     add_det_rows.push(add_det_row);
         }
 
     }
     insertBigQuery(table_eventsAdmin, event_admin_rows);
-    insertBigQuery(table_eventsAdmin_createdBy, event_admin_created_by_rows);
-    insertBigQuery(table_source, source_rows);
-    insertBigQuery(table_parent, parent_rows);
-    if( add_det_rows.length > 0 )
-        insertBigQuery(table_add_det, add_det_rows);
+//    insertBigQuery(table_eventsAdmin_createdBy, event_admin_created_by_rows);
+//    insertBigQuery(table_source, source_rows);
+//    insertBigQuery(table_parent, parent_rows);
+//    if( add_det_rows.length > 0 )
+//        insertBigQuery(table_add_det, add_det_rows);
     
     if (typeof next_stream_position != 'undefined') {
         //Request(getEventURL(next_stream_position), callback);
