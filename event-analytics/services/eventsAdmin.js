@@ -49,10 +49,10 @@ function getBQDate(date)    {
          var bq_date = BigQuery.datetime({
          year: date.getFullYear(),
           month: date.getMonth()+1,
-          day: date.getDate()-1,
-          hours: date.getHours()+1,
-          minutes: date.getMinutes()+1,
-          seconds: date.getSeconds()+1
+          day: date.getDate(),
+          hours: date.getHours(),
+          minutes: date.getMinutes(),
+          seconds: date.getSeconds()
          });
     return bq_date;
 }
