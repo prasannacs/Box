@@ -31,7 +31,7 @@ module.exports = {
 }
 
 function getEventURL(stream_position)  {
-    var eventURL = 'https://api.box.com/2.0/events;
+    var eventURL = 'https://api.box.com/2.0/events';
     if( event_type == 'Enterprise')
         eventURL = eventURL + '?stream_type=admin_logs&limit=500';
     if(typeof stream_position != 'undefined') {
