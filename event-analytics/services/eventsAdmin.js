@@ -12,6 +12,7 @@ const table_source = 'events_admin_source';
 const table_parent = 'events_admin_source_parent';
 var access_token;
 var eid;
+var event_type;
 
 // Creates a client
 const bigquery = new BigQuery({
@@ -19,9 +20,10 @@ const bigquery = new BigQuery({
 });
 
 module.exports = {
-    callEventsAPI: function(accessToken, EID) {
+    callEventsAPI: function(accessToken, EID, type) {
         access_token = accessToken;
         eid = EID;
+        event_type = type;
         Request(getEventURL(), callback);
 
     }
@@ -29,7 +31,9 @@ module.exports = {
 }
 
 function getEventURL(stream_position)  {
-    var eventURL = 'https://api.box.com/2.0/events?stream_type=admin_logs&limit=500';
+    var eventURL = 'https://api.box.com/2.0/events;
+    if( event_type == 'Enterprise')
+        eventURL = eventURL + '?stream_type=admin_logs&limit=500';
     if(typeof stream_position != 'undefined') {
         eventURL = eventURL + '&stream_position=' + stream_position;
     }
