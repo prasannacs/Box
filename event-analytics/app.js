@@ -21,7 +21,7 @@ app.get('/home', (req, res) => {
 
 app.post('/home', (req, res) => {
     console.log(req.body.token);
-    services.callEventsAPI(req.body.token, req.body.EID);
+    services.callEventsAPI(req.body.token, req.body.EID, req.body.type);
     res.render('home.ejs',{});
 })
 
