@@ -91,7 +91,7 @@ function callback(error, response, body) {
         var source = entries[counter].source;
         if( source != null )    {
             var source_row = {event_id: entries[counter].event_id, item_type: source.item_type, item_id: source.item_id, item_name: source.item_name, eid: eid};
-      //      source_rows.push(source_row);
+            source_rows.push(source_row);
             console.log('source_row -',source_row);
             
             var parent = source.parent;
