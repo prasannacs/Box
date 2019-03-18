@@ -27,6 +27,14 @@ exports.webhookTrigger = (req, res) => {
                 if( event == 'FILE.CREATED' )   {
                     // add comments to the file
                     client.comments.create(fileId,'New test result added');
+                    client.comments.create(fileId,'New test validated against Python scripts');
+                    client.folders.create('70423468094', 'ACME CRO Results')
+                        .then(folder => {
+                            client.folders.create(folder.id,'Accepted')
+                                .then(folder =>   {
+                                client.files.move(fileId,folder.id);
+                            });
+                    });
                 }
             }
         
