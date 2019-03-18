@@ -5,7 +5,9 @@
  * @param {!express:Response} res HTTP response context.
  */
 const BoxSDK = require('box-node-sdk');
-const jsonConfig = require('CLI-private.json');
+const fs = require('fs');
+var jsonConfig = JSON.parse(fs.readFileSync('CLI-private.json', 'utf8'));
+
 var sdk = BoxSDK.getPreconfiguredInstance(jsonConfig);
 var client = sdk.getAppAuthClient('enterprise');
 
