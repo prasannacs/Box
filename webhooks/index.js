@@ -18,5 +18,17 @@ sdk.getEnterpriseAppAuthTokens('59194496', null, function (error, token) {
 exports.webhookTrigger = (req, res) => {
   let message = req.query.message || req.body.message || 'Hello World!';
   console.log('Event -- ',req.body);
+    if( req.body != undefined ) {
+        var event = req.body.trigger;
+        var resourceType = req.body.source.type;
+        var fileId;
+        if( resourceType != undefined && resourceType == 'file' )   {
+            fileId = req.body.source.id;
+                    // add comments to the file
+                client.comments.create(fileId,'New test result added');
+
+            }
+        
+        }
   res.status(200).send(message);
 };
