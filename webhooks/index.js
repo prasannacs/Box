@@ -24,9 +24,10 @@ exports.webhookTrigger = (req, res) => {
         var fileId;
         if( resourceType != undefined && resourceType == 'file' )   {
             fileId = req.body.source.id;
+                if( event == 'FILE.CREATED' )   {
                     // add comments to the file
-                client.comments.create(fileId,'New test result added');
-
+                    client.comments.create(fileId,'New test result added');
+                }
             }
         
         }
