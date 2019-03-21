@@ -8,9 +8,9 @@ const client = new vision.ImageAnnotatorClient();
  * TODO(developer): Uncomment the following lines before running the sample.
  */
 // Bucket where the file resides
-// const bucketName = 'my-bucket';
+const bucketName = 'staging.sixth-hawk-194719.appspot.com';
 // Path to PDF file within bucket
-// const fileName = 'path/to/document.pdf';
+const fileName = '/text-extraction/upload/invoice.pdf';
 
 const gcsSourceUri = `gs://${bucketName}/${fileName}`;
 const gcsDestinationUri = `gs://${bucketName}/${fileName}.json`;
