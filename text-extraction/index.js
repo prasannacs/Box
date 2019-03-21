@@ -38,11 +38,11 @@ const request = {
   ],
 };
 
-//const [operation] = await client.asyncBatchAnnotateFiles(request);
-const [operation] = client.asyncBatchAnnotateFiles(request);
+const [operation] = await client.asyncBatchAnnotateFiles(request);
+//const [operation] = client.asyncBatchAnnotateFiles(request);
 
-//const [filesResponse] = await operation.promise();
-const [filesResponse] = operation.promise();
+const [filesResponse] = await operation.promise();
+//const [filesResponse] = operation.promise();
 
 const destinationUri =
   filesResponse.responses[0].outputConfig.gcsDestination.uri;
