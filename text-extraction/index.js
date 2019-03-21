@@ -38,9 +38,18 @@ const request = {
   ],
 };
 
-const [operation] = await client.asyncBatchAnnotateFiles(request);
-const [filesResponse] = await operation.promise();
+module.exports = {
+    callTextExtraction: function() {
+      batchAnnotateFiles();
+    }
 
-const destinationUri =
-  filesResponse.responses[0].outputConfig.gcsDestination.uri;
-console.log('Json saved to: ' + destinationUri);
+}
+
+async function batchAnnotateFiles() {
+  const [operation] = await client.asyncBatchAnnotateFiles(request);
+  const [filesResponse] = await operation.promise();
+
+  const destinationUri =
+    filesResponse.responses[0].outputConfig.gcsDestination.uri;
+  console.log('Json saved to: ' + destinationUri);
+}
