@@ -10,7 +10,7 @@ const client = new vision.ImageAnnotatorClient();
 // Bucket where the file resides
 const bucketName = 'staging.sixth-hawk-194719.appspot.com';
 // Path to PDF file within bucket
-const fileName = 'text-extraction/upload/invoice.pdf';
+const fileName = 'text-extraction/upload/filled-john.pdf';
 
 const gcsSourceUri = `gs://${bucketName}/${fileName}`;
 const gcsDestinationUri = `gs://${bucketName}/${fileName}.json`;
