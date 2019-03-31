@@ -27,9 +27,7 @@ exports.webhookTrigger = (req, res) => {
         var folderId;
         if( createdBy != undefined && createdBy.type == 'user' )    {
             userId = createdBy.id;
-            client = sdk.getAppAuthClient('user', userId, function(error, token) {
-                console.log('app user token --> ',token.accessToken);
-            });
+            client = sdk.getAppAuthClient('user', userId);
         }
         if( source != undefined && source.type == 'folder' )
             folderId = source.id;
