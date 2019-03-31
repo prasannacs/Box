@@ -21,6 +21,7 @@ exports.webhookTrigger = (req, res) => {
     if( req.body != undefined ) {
         var event = req.body.trigger;
         var createdBy = req.body.created_by;
+        console.log('--> ',createdBy);
         var source = req.body.source;
         var userId;
         var folderId;
