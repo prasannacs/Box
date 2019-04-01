@@ -39,9 +39,9 @@ exports.webhookTrigger = (req, res) => {
                         var parent = file.parent;
                         if (parent != undefined && parent.type == 'folder') {
                             var folderId = parent.id;
-                            client.folders.update(folderId, {name: 'Review **'}, null);
+                            appClient.folders.update(folderId, {name: 'Review --'}, null);
                         }
-                    }
+                    });
                     /*
                     client.folders.create('70423468094', 'ACME CRO Results')
                         .then(folder => {
