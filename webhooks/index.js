@@ -34,6 +34,14 @@ exports.webhookTrigger = (req, res) => {
                     // add comments to the file
                     appClient.comments.create(resourceId, 'New file added');
                     appClient.comments.create(resourceId, 'New file validated');
+                    appClient.files.get(resourceId)
+	                    .then(file => {
+                        var parent = file.parent;
+                        if (parent != undefined && parent.type == 'folder') {
+                            var folderId = parent.id;
+                            client.folders.update(folderId, {name: 'Review **'}, null);
+                        }
+                    }
                     /*
                     client.folders.create('70423468094', 'ACME CRO Results')
                         .then(folder => {
