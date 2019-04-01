@@ -16,25 +16,24 @@ sdk.getEnterpriseAppAuthTokens('59194496', null, function (error, token) {
 })
 
 exports.webhookTrigger = (req, res) => {
-  let message = req.query.message || req.body.message || 'Hello World!';
-  console.log('Event -- ',req.body);
-    if( req.body != undefined ) {
+    let message = req.query.message || req.body.message || 'Hello World!';
+    console.log('Event -- ', req.body);
+    if (req.body != undefined) {
         var event = req.body.trigger;
         var createdBy = req.body.created_by;
-        console.log('--> ',createdBy);
+        console.log('--> ', createdBy);
         var source = req.body.source;
         var userId;
         var resourceId;
-        if( createdBy != undefined && createdBy.type == 'user' )    {
+        if (createdBy != undefined && createdBy.type == 'user') {
             userId = createdBy.id;
-            client = sdk.getAppUserTokens(userId,null, function (error, token) {
-                console.log('User account token ', token.accessToken);
-                        if( source != undefined && source.type == 'file' )   {
-            resourceId = req.body.source.id;
-                if( event == 'FILE.UPLOADED' )   {
+            var appClient = sdk.getAppAuthClient('user', userId);
+            if (source != undefined && source.type == 'file') {
+                resourceId = req.body.source.id;
+                if (event == 'FILE.UPLOADED') {
                     // add comments to the file
-                    client.comments.create(resourceId,'New file added');
-                    client.comments.create(resourceId,'New file validated');
+                    client.comments.create(resourceId, 'New file added');
+                    client.comments.create(resourceId, 'New file validated');
                     /*
                     client.folders.create('70423468094', 'ACME CRO Results')
                         .then(folder => {
@@ -52,10 +51,8 @@ exports.webhookTrigger = (req, res) => {
                     */
                 }
             }
-
-            });
         }
-        
-     }
-  res.status(200).send(message);
+
+    }
+    res.status(200).send(message);
 };
