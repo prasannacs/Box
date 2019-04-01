@@ -32,8 +32,8 @@ exports.webhookTrigger = (req, res) => {
                 resourceId = req.body.source.id;
                 if (event == 'FILE.UPLOADED') {
                     // add comments to the file
-                    client.comments.create(resourceId, 'New file added');
-                    client.comments.create(resourceId, 'New file validated');
+                    appClient.comments.create(resourceId, 'New file added');
+                    appClient.comments.create(resourceId, 'New file validated');
                     /*
                     client.folders.create('70423468094', 'ACME CRO Results')
                         .then(folder => {
