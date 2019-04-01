@@ -24,23 +24,17 @@ exports.webhookTrigger = (req, res) => {
         console.log('--> ',createdBy);
         var source = req.body.source;
         var userId;
-        var folderId;
+        var resourceId;
         if( createdBy != undefined && createdBy.type == 'user' )    {
             userId = createdBy.id;
             client = sdk.getAppUserTokens(userId,null, function (error, token) {
                 console.log('User account token ', token.accessToken);
-            });
-        }
-        if( source != undefined && source.type == 'folder' )
-            folderId = source.id;
-        var resourceType = req.body.source.type;
-        var fileId;
-        if( resourceType != undefined && resourceType == 'file' )   {
-            fileId = req.body.source.id;
+                        if( source != undefined && source.type == 'file' )   {
+            resourceId = req.body.source.id;
                 if( event == 'FILE.UPLOADED' )   {
                     // add comments to the file
-                    client.comments.create(fileId,'New file added');
-                    client.comments.create(fileId,'New file validated');
+                    client.comments.create(resourceId,'New file added');
+                    client.comments.create(resourceId,'New file validated');
                     /*
                     client.folders.create('70423468094', 'ACME CRO Results')
                         .then(folder => {
@@ -58,7 +52,10 @@ exports.webhookTrigger = (req, res) => {
                     */
                 }
             }
-        
+
+            });
         }
+        
+     }
   res.status(200).send(message);
 };
