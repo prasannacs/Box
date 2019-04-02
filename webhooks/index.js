@@ -42,6 +42,15 @@ exports.webhookTrigger = (req, res) => {
                     // add comments to the file
                     appClient.comments.create(resourceId, 'New file added');
                     appClient.comments.create(resourceId, 'New file validated');
+			
+		    // add Metadata
+		    var metadataValues = {
+			    lawyerName: "John",
+			    claimType: "Refund",
+			    claimNumber: "1xsd23"
+			};
+		    appClient.files.addMetadata(resourceId, client.metadata.scopes.ENTERPRISE, "LMClaim", metadataValues);
+		
                     appClient.files.get(resourceId)
 	                    .then(file => {
                         var parent = file.parent;
