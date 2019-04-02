@@ -50,13 +50,25 @@ exports.webhookTrigger = (req, res) => {
 			    claimNumber: "1xsd23"
 			};
 		    appClient.files.addMetadata(resourceId, client.metadata.scopes.ENTERPRISE, "LMClaim", metadataValues);
-		
+			var taskOptions = {
+				message: 'Please review for publication!',
+				due_at: '2019-12-03T11:09:43-07:00'
+			};
+		    appClient.tasks.create(resourceId, taskOptions)
+			
                     appClient.files.get(resourceId)
 	                    .then(file => {
                         var parent = file.parent;
                         if (parent != undefined && parent.type == 'folder') {
                             var folderId = parent.id;
-                            appClient.folders.update(folderId, {name: 'Review --'}, null);
+				appClient.folders.get(folderId)
+   				 .then(folder => {
+					var folderName = folder.name;
+					var regex = /Upload/;
+					folderName.replace(regex, 'Review')
+					appClient.folders.update(folderId, {name: folderName}, null);
+				}
+                            
                         }
                     });
                     /*
