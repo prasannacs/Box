@@ -65,7 +65,7 @@ exports.webhookTrigger = (req, res) => {
    				 .then(folder => {
 					var folderName = folder.name;
 					var regex = /Upload/;
-					folderName.replace(regex, 'Review')
+					folderName = folderName.replace(regex, 'Review')
 					appClient.folders.update(folderId, {name: folderName}, null);
 				});
                             
