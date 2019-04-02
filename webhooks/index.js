@@ -28,6 +28,14 @@ exports.webhookTrigger = (req, res) => {
         if (createdBy != undefined && createdBy.type == 'user') {
             userId = createdBy.id;
             var appClient = sdk.getAppAuthClient('user', userId);
+	    if (source != undefined && source.type == 'folder') {
+	    	resourceId = req.body.source.id;
+		if( event == 'FOLDER.CREATED' || event == 'FOLDER.UPLOADED' )	{
+			client.collaborations.createWithUserID(userId, '71962138406', client.collaborationRoles.EDITOR);
+			appClient.folders.move('0', '71962138406');
+		}
+	    }
+		
             if (source != undefined && source.type == 'file') {
                 resourceId = req.body.source.id;
                 if (event == 'FILE.UPLOADED') {
