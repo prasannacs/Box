@@ -31,8 +31,8 @@ exports.webhookTrigger = (req, res) => {
 	    if (source != undefined && source.type == 'folder') {
 	    	resourceId = req.body.source.id;
 		if( event == 'FOLDER.CREATED' || event == 'FOLDER.UPLOADED' )	{
-			client.collaborations.createWithUserID(userId, '71962138406', client.collaborationRoles.EDITOR);
-			appClient.folders.move('0', '71962138406');
+			//client.collaborations.createWithUserID(userId, '71962138406', client.collaborationRoles.EDITOR);
+			//appClient.folders.move('0', '71962138406');
 		}
 	    }
 		
