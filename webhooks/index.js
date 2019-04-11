@@ -38,7 +38,7 @@ exports.webhookTrigger = (req, res) => {
 
             if (source != undefined && source.type == 'file') {
                 resourceId = req.body.source.id;
-                if( event == 'METADATA_INSTANCE.UPDATED' )   {
+                if (event == 'METADATA_INSTANCE.UPDATED') {
                     appClient.files.get(resourceId)
                         .then(file => {
                             var parent = file.parent;
@@ -50,65 +50,65 @@ exports.webhookTrigger = (req, res) => {
                                         appClient.folders.create(parentFolderId, 'Locked artifacts')
                                     });
                             }
-                            }
-                    }
-                    
+                        });
                 }
-                if (event == 'FILE.UPLOADED') {
-                    // add comments to the file
-                    appClient.comments.create(resourceId, 'New file added');
-                    appClient.comments.create(resourceId, 'New file validated');
-                    appClient.files.get(resourceId)
-                        .then(file => {
-                            var parent = file.parent;
-                            if (parent != undefined && parent.type == 'folder') {
-                                var folderId = parent.id;
-                                appClient.folders.get(folderId)
-                                    .then(folder => {
-                                        var folderName = folder.name;
-                                        var regex = /Upload/;
-                                        folderName = folderName.replace(regex, 'Review')
-                                        appClient.folders.update(folderId, { name: folderName }, null);
-                                    });
-                                appClient.folders.applyWatermark(folderId);
-                                var parentFolderName;
-                                appClient.folders.get(folderId)
-                                     .then(folder => {
+
+            }
+            if (event == 'FILE.UPLOADED') {
+                // add comments to the file
+                appClient.comments.create(resourceId, 'New file added');
+                appClient.comments.create(resourceId, 'New file validated');
+                appClient.files.get(resourceId)
+                    .then(file => {
+                        var parent = file.parent;
+                        if (parent != undefined && parent.type == 'folder') {
+                            var folderId = parent.id;
+                            appClient.folders.get(folderId)
+                                .then(folder => {
+                                    var folderName = folder.name;
+                                    var regex = /Upload/;
+                                    folderName = folderName.replace(regex, 'Review')
+                                    appClient.folders.update(folderId, { name: folderName }, null);
+                                });
+                            appClient.folders.applyWatermark(folderId);
+                            var parentFolderName;
+                            appClient.folders.get(folderId)
+                                .then(folder => {
                                     parentFolderName = folder.parent.name;
                                 });
-                                appClient.folders.getMetadata(folderId, client.metadata.scopes.ENTERPRISE, 'case')
-                                    .then(metadata => {
-                                        var metadataValues = {
-                                            subject: metadata.subject,
-                                            description: metadata.description,
-                                            status: metadata.status,
-                                            caseNumber: parentFolderName
-                                        };
-                                        appClient.files.addMetadata(resourceId, client.metadata.scopes.ENTERPRISE, "case", metadataValues);
+                            appClient.folders.getMetadata(folderId, client.metadata.scopes.ENTERPRISE, 'case')
+                                .then(metadata => {
+                                    var metadataValues = {
+                                        subject: metadata.subject,
+                                        description: metadata.description,
+                                        status: metadata.status,
+                                        caseNumber: parentFolderName
+                                    };
+                                    appClient.files.addMetadata(resourceId, client.metadata.scopes.ENTERPRISE, "case", metadataValues);
 
-                                    });
+                                });
 
-                            }
-                        });
-                    /*
-                    client.folders.create('70423468094', 'ACME CRO Results')
-                        .then(folder => {
-                            client.collaborations.createWithUserID('3725141744', folder.id, client.collaborationRoles.EDITOR)
-                            client.folders.create(folder.id,'Accepted')
-                                .then(folder =>   {
-                                client.files.move(fileId,folder.id);
-                            });
+                        }
                     });
-                    var options = {
-                    	message: 'Please review!',
-                    	due_at: '2019-04-03T11:09:43-07:00'
-                    };
-                    client.tasks.create(fileId, options)
-                    */
-                }
+                /*
+                client.folders.create('70423468094', 'ACME CRO Results')
+                    .then(folder => {
+                        client.collaborations.createWithUserID('3725141744', folder.id, client.collaborationRoles.EDITOR)
+                        client.folders.create(folder.id,'Accepted')
+                            .then(folder =>   {
+                            client.files.move(fileId,folder.id);
+                        });
+                });
+                var options = {
+                    message: 'Please review!',
+                    due_at: '2019-04-03T11:09:43-07:00'
+                };
+                client.tasks.create(fileId, options)
+                */
             }
         }
-
     }
-    res.status(200).send(message);
+
+}
+res.status(200).send(message);
 };
