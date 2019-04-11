@@ -50,6 +50,7 @@ exports.webhookTrigger = (req, res) => {
                                         appClient.folders.create(parentFolderId, 'Locked artifacts')
                                     });
                             }
+                            }
                     }
                     
                 }
