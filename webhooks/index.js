@@ -49,6 +49,8 @@ exports.webhookTrigger = (req, res) => {
                                         var parentFolderId = folder.parent.id;
                                         appClient.folders.create(parentFolderId, 'Locked artifacts')
                                     });
+                            }
+                    }
                     
                 }
                 if (event == 'FILE.UPLOADED') {
