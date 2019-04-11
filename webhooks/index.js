@@ -90,25 +90,8 @@ exports.webhookTrigger = (req, res) => {
 
                         }
                     });
-                /*
-                client.folders.create('70423468094', 'ACME CRO Results')
-                    .then(folder => {
-                        client.collaborations.createWithUserID('3725141744', folder.id, client.collaborationRoles.EDITOR)
-                        client.folders.create(folder.id,'Accepted')
-                            .then(folder =>   {
-                            client.files.move(fileId,folder.id);
-                        });
-                });
-                var options = {
-                    message: 'Please review!',
-                    due_at: '2019-04-03T11:09:43-07:00'
-                };
-                client.tasks.create(fileId, options)
-                */
             }
         }
     }
-
-}
-res.status(200).send(message);
+    res.status(200).send(message);
 };
