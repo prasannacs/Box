@@ -39,6 +39,7 @@ exports.webhookTrigger = (req, res) => {
             if (source != undefined && source.type == 'file') {
                 resourceId = req.body.source.id;
                 if (event == 'METADATA_INSTANCE.UPDATED') {
+                    var lockedFolderId;
                     appClient.files.get(resourceId)
                         .then(file => {
                             var parent = file.parent;
@@ -48,9 +49,18 @@ exports.webhookTrigger = (req, res) => {
                                     .then(folder => {
                                         var parentFolderId = folder.parent.id;
                                         appClient.folders.create(parentFolderId, 'Locked artifacts')
+                                            .then(folder => {
+                                            lockedFolderId = folder.id;
+                                        });
                                     });
                             }
                         });
+                    appClient.files.move(resourceId, lockedFolderId);
+                    var options = {
+	                    expires_at: '2028-12-12T10:55:30-08:00',
+	                    is_download_prevented: false
+                    }
+                    appClient.files.lock(resourceId, options);
                 }
 
             }
