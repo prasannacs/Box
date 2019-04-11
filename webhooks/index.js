@@ -54,10 +54,10 @@ exports.webhookTrigger = (req, res) => {
 					    appClient.files.move(resourceId, lockedFolderId);
 					    var options = {
 						    expires_at: '2028-12-12T10:55:30-08:00',
-						    is_download_prevented: false
+						    is_download_prevented: true
 					    }
 					    appClient.files.lock(resourceId, options);
-
+					    appClient.folders.delete(parentFolderId,{recursive: true});
                                         });
                                     });
                             }
@@ -69,6 +69,7 @@ exports.webhookTrigger = (req, res) => {
                 // add comments to the file
                 appClient.comments.create(resourceId, 'New file added');
                 appClient.comments.create(resourceId, 'New file validated');
+		appClient.comments.create(resourceId, 'Metadata added');
                 appClient.files.get(resourceId)
                     .then(file => {
                         var parent = file.parent;
