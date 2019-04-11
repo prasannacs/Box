@@ -57,7 +57,7 @@ exports.webhookTrigger = (req, res) => {
 						    is_download_prevented: true
 					    }
 					    appClient.files.lock(resourceId, options);
-					    appClient.folders.delete(parentFolderId,{recursive: true});
+					    appClient.folders.delete(folderId,{recursive: true});
                                         });
                                     });
                             }
