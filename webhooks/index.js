@@ -38,26 +38,23 @@ exports.webhookTrigger = (req, res) => {
 
             if (source != undefined && source.type == 'file') {
                 resourceId = req.body.source.id;
+                if( event == 'METADATA_INSTANCE.UPDATED' )   {
+                    appClient.files.get(resourceId)
+                        .then(file => {
+                            var parent = file.parent;
+                            if (parent != undefined && parent.type == 'folder') {
+                                var folderId = parent.id;
+                                appClient.folders.get(folderId)
+                                    .then(folder => {
+                                        var parentFolderId = folder.parent.id;
+                                        appClient.folders.create(parentFolderId, 'Locked artifacts')
+                                    });
+                    
+                }
                 if (event == 'FILE.UPLOADED') {
                     // add comments to the file
                     appClient.comments.create(resourceId, 'New file added');
                     appClient.comments.create(resourceId, 'New file validated');
-
-                    // add Metadata
-                    /*
-                    var metadataValues = {
-                        lawyerName: "John",
-                        claimType: "Refund",
-                        claimNumber: "1xsd23"
-                    };
-                    appClient.files.addMetadata(resourceId, client.metadata.scopes.ENTERPRISE, "LMClaim", metadataValues);
-                    var taskOptions = {
-                        message: 'Please review for publication!',
-                        due_at: '2019-12-03T11:09:43-07:00'
-                    };
-                	
-                    appClient.tasks.create(resourceId, taskOptions)
-                    */
                     appClient.files.get(resourceId)
                         .then(file => {
                             var parent = file.parent;
@@ -70,12 +67,19 @@ exports.webhookTrigger = (req, res) => {
                                         folderName = folderName.replace(regex, 'Review')
                                         appClient.folders.update(folderId, { name: folderName }, null);
                                     });
+                                appClient.folders.applyWatermark(folderId);
+                                var parentFolderName;
+                                appClient.folders.get(folderId)
+                                     .then(folder => {
+                                    parentFolderName = folder.parent.name;
+                                });
                                 appClient.folders.getMetadata(folderId, client.metadata.scopes.ENTERPRISE, 'case')
                                     .then(metadata => {
                                         var metadataValues = {
                                             subject: metadata.subject,
                                             description: metadata.description,
-                                            status: metadata.status
+                                            status: metadata.status,
+                                            caseNumber: parentFolderName
                                         };
                                         appClient.files.addMetadata(resourceId, client.metadata.scopes.ENTERPRISE, "case", metadataValues);
 
