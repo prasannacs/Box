@@ -51,14 +51,14 @@ exports.webhookTrigger = (req, res) => {
                                             .then(folder => {
                                             var lockedFolderId = folder.id;
 					    console.log('lockedFolderId -- ',lockedFolderId);
-					    appClient.files.move(resourceId, lockedFolderId)
+					    client.files.move(resourceId, lockedFolderId)
 						.then(file =>	{
 						    var options = {
 							    expires_at: '2028-12-12T10:55:30-08:00',
 							    is_download_prevented: true
 						    }
-						    appClient.files.lock(resourceId, options);
-						    appClient.folders.delete(folderId,{recursive: true});
+						    client.files.lock(resourceId, options);
+						    client.folders.delete(folderId,{recursive: true});
 					    });
                                         });
                                     });
