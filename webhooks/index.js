@@ -28,49 +28,61 @@ exports.webhookTrigger = (req, res) => {
         if (createdBy != undefined && createdBy.type == 'user') {
             userId = createdBy.id;
             var appClient = sdk.getAppAuthClient('user', userId);
-	    if (source != undefined && source.type == 'folder') {
-	    	resourceId = req.body.source.id;
-		if( event == 'FOLDER.CREATED' || event == 'FOLDER.UPLOADED' )	{
-			//client.collaborations.createWithUserID(userId, '71962138406', client.collaborationRoles.EDITOR);
-			//appClient.folders.move('0', '71962138406');
-		}
-	    }
-		
+            if (source != undefined && source.type == 'folder') {
+                resourceId = req.body.source.id;
+                if (event == 'FOLDER.CREATED' || event == 'FOLDER.UPLOADED') {
+                    //client.collaborations.createWithUserID(userId, '71962138406', client.collaborationRoles.EDITOR);
+                    //appClient.folders.move('0', '71962138406');
+                }
+            }
+
             if (source != undefined && source.type == 'file') {
                 resourceId = req.body.source.id;
                 if (event == 'FILE.UPLOADED') {
                     // add comments to the file
                     appClient.comments.create(resourceId, 'New file added');
                     appClient.comments.create(resourceId, 'New file validated');
-			
-		    // add Metadata
-		    var metadataValues = {
-			    lawyerName: "John",
-			    claimType: "Refund",
-			    claimNumber: "1xsd23"
-			};
-		    appClient.files.addMetadata(resourceId, client.metadata.scopes.ENTERPRISE, "LMClaim", metadataValues);
-			var taskOptions = {
-				message: 'Please review for publication!',
-				due_at: '2019-12-03T11:09:43-07:00'
-			};
-		    appClient.tasks.create(resourceId, taskOptions)
-			
+
+                    // add Metadata
+                    /*
+                    var metadataValues = {
+                        lawyerName: "John",
+                        claimType: "Refund",
+                        claimNumber: "1xsd23"
+                    };
+                    appClient.files.addMetadata(resourceId, client.metadata.scopes.ENTERPRISE, "LMClaim", metadataValues);
+                    var taskOptions = {
+                        message: 'Please review for publication!',
+                        due_at: '2019-12-03T11:09:43-07:00'
+                    };
+                	
+                    appClient.tasks.create(resourceId, taskOptions)
+                    */
                     appClient.files.get(resourceId)
-	                    .then(file => {
-                        var parent = file.parent;
-                        if (parent != undefined && parent.type == 'folder') {
-                            var folderId = parent.id;
-				appClient.folders.get(folderId)
-   				 .then(folder => {
-					var folderName = folder.name;
-					var regex = /Upload/;
-					folderName = folderName.replace(regex, 'Review')
-					appClient.folders.update(folderId, {name: folderName}, null);
-				});
-                            
-                        }
-                    });
+                        .then(file => {
+                            var parent = file.parent;
+                            if (parent != undefined && parent.type == 'folder') {
+                                var folderId = parent.id;
+                                appClient.folders.get(folderId)
+                                    .then(folder => {
+                                        var folderName = folder.name;
+                                        var regex = /Upload/;
+                                        folderName = folderName.replace(regex, 'Review')
+                                        appClient.folders.update(folderId, { name: folderName }, null);
+                                    });
+                                appClient.folders.getMetadata(folderId, client.metadata.scopes.ENTERPRISE, 'case')
+                                    .then(metadata => {
+                                        var metadataValues = {
+                                            subject: metadata.subject,
+                                            description: metadata.description,
+                                            status: metadata.status
+                                        };
+                                        appClient.files.addMetadata(resourceId, client.metadata.scopes.ENTERPRISE, "case", metadataValues);
+
+                                    });
+
+                            }
+                        });
                     /*
                     client.folders.create('70423468094', 'ACME CRO Results')
                         .then(folder => {
