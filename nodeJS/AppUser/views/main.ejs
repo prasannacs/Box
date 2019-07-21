@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,Intl"></script>
+    <link rel="stylesheet" href="https://cdn01.boxcdn.net/platform/elements/4.4.0/en-US/explorer.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <meta charset="UTF-8">
+    <title>Box Node App</title>
+</head>
+
+<body>
+    <h3>Strategic Supplier Portal</h3>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Welcome <%= oktaLogin %></h4>
+            </div>
+            <div class="col-md-6">
+                <a href="/logout">Logoff</a>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-6" style="border: thick solid goldenrod">
+                <h5>Upload files into your workspace</h5>
+                <div class="uploader-container"></div>
+                <script src="https://cdn01.boxcdn.net/platform/elements/10.1.0/en-US/uploader.js"></script>
+                <script>
+                    var folderId = '0';
+                    var accessToken = '<%= userAccessToken %>';
+                    var uploader = new Box.ContentUploader();
+                    uploader.show(folderId, accessToken, {
+                        container: '.uploader-container'
+                    });
+                </script>
+            </div>
+
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-6" style="border: thick solid green">
+                    <h5>Your Document Vault</h5>
+
+                <div class="application-container" style="float: left; height: 400px; width: 90%;"></div>
+                <!-- Latest version of the explorer js for your locale -->
+                <script src="https://cdn01.boxcdn.net/platform/elements/10.1.0/en-US/explorer.js"></script>
+                <script>
+                    var folderId = '0';
+                    var accessToken = '<%= userAccessToken %>';
+                    var contentExplorer = new Box.ContentExplorer();
+                    contentExplorer.show(folderId, accessToken, {
+                        container: '.application-container'
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
