@@ -20,5 +20,27 @@
   "devDependencies": {
     "nodemon": "^1.18.1"
   },
+  "engines": {
+    "node": "8.x.x"
+  },
+  "scripts": {
+    "deploy": "gcloud app deploy",
+    "start": "node app.js",
+    "lint": "repo-tools lint",
+    "pretest": "npm run lint",
+    "system-test": "repo-tools test app",
+    "test": "npm run system-test",
+    "e2e-test": "repo-tools test deploy"
+  },
+  "cloud-repo-tools": {
+    "test": {
+      "app": {
+        "msg": "Box Okta"
+      }
+    },
+    "requiresKeyFile": true,
+    "requiresProjectId": true
+  },
   "description": ""
 }
+
