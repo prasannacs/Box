@@ -100,8 +100,9 @@ app.get('/login', oidc.ensureAuthenticated(), (req, res) => {
 
 //app.listen(8080, () => console.log('Box Node app listening on port 8080!'))
 
+const PORT = process.env.PORT || 3000;
 oidc.on('ready', () => {
-    app.listen(3000, () => console.log(`Started!`));
+    app.listen(PORT, () => console.log(`Started!`));
 });
 
 oidc.on('error', err => {
