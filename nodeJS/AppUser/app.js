@@ -17,7 +17,7 @@ var sdk = BoxSDK.getPreconfiguredInstance(jsonConfig);
 var serviceAccountClient = sdk.getAppAuthClient('enterprise');
 
 // Pras EID - 59194496
-var saToken = sdk.getEnterpriseAppAuthTokens('218955184', null, function (error, token) {
+var saToken = sdk.getEnterpriseAppAuthTokens('287644287', null, function (error, token) {
     console.log('Service account token ', token.accessToken);
 })
 
