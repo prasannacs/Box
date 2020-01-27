@@ -1,6 +1,6 @@
 const BoxSDK = require('box-node-sdk');
 var path = require('path');
-const jsonConfig = require(path.resolve(__dirname, "./rajiv-kaki.json"));
+const jsonConfig = require(path.resolve(__dirname, "./cli-jam.json"));
 const express = require('express');
 const bodyParser = require('body-parser')
 const session = require('express-session');
