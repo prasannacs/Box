@@ -1,0 +1,12 @@
+trigger BoxFolderTrigger on Case (after insert, after update) {
+    System.debug('Case Trigger --------');
+    String recordId;
+    String caseNumber;
+    for(Case c: Trigger.new)	{
+        recordId = c.Id;
+        caseNumber = c.CaseNumber;
+     } 
+    System.debug('Case recordId is: ------ ' + recordId);
+	BoxRecordFolderHandler.createFolder(recordId,UserInfo.getUserId());
+    BoxTokenGenerator.createSubFolders(recordId);
+}
