@@ -9,7 +9,7 @@
   "author": "prasannacs",
   "license": "ISC",
   "dependencies": {
-    "@okta/oidc-middleware": "^1.0.2",
+    "@okta/oidc-middleware": "^5.0.0",
     "@okta/okta-sdk-nodejs": "^2.0.0",
     "body-parser": "^1.18.3",
     "box-node-sdk": "^1.19.0",
